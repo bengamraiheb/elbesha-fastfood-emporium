@@ -19,6 +19,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				serif: ['Playfair Display', 'Georgia', 'serif'],
+				mono: ['JetBrains Mono', 'monospace'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -64,17 +69,22 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				brand: {
-					red: '#FF3131',
-					orange: '#FF9933',
-					yellow: '#FFCC33',
-					dark: '#1E1E1E',
-					light: '#F9F9F9'
+					red: '#E15A46',
+					orange: '#F18F43',
+					yellow: '#F4CA76',
+					dark: '#1F2937',
+					light: '#F9FAFB'
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			boxShadow: {
+				'subtle': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+				'elevated': '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
+				'card': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -108,13 +118,33 @@ export default {
 					'100%': { 
 						transform: 'translateX(0)'
 					},
+				},
+				'zoom-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'scale(0.95)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					}
+				},
+				'spin-slow': {
+					'0%': { 
+						transform: 'rotate(0deg)'
+					},
+					'100%': { 
+						transform: 'rotate(360deg)'
+					},
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-in',
-				'slide-in': 'slide-in 0.5s ease-out'
+				'slide-in': 'slide-in 0.5s ease-out',
+				'zoom-in': 'zoom-in 0.4s ease-out',
+				'spin-slow': 'spin-slow 8s linear infinite'
 			}
 		}
 	},

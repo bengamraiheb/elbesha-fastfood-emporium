@@ -28,7 +28,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', animated = false }) => {
       {animated ? (
         <>
           <motion.span 
-            className={`font-bold ${sizeClasses[size]} text-brand-red`}
+            className={`font-bold ${sizeClasses[size]} text-primary`}
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -36,7 +36,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', animated = false }) => {
             El-Besha
           </motion.span>
           <motion.span 
-            className={`font-light ${sizeClasses[size]} text-brand-orange ml-1`}
+            className={`font-light ${sizeClasses[size]} text-secondary ml-1`}
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -46,8 +46,8 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', animated = false }) => {
         </>
       ) : (
         <>
-          <span className={`font-bold ${sizeClasses[size]} text-brand-red`}>El-Besha</span>
-          <span className={`font-light ${sizeClasses[size]} text-brand-orange ml-1`}>Fastfood</span>
+          <span className={`font-bold ${sizeClasses[size]} text-primary`}>El-Besha</span>
+          <span className={`font-light ${sizeClasses[size]} text-secondary ml-1`}>Fastfood</span>
         </>
       )}
     </Container>
