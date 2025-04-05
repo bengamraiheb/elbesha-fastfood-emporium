@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SplashScreen from '@/components/SplashScreen';
 import Home from './Home';
 
@@ -12,8 +13,20 @@ const Index = () => {
 
   return (
     <>
-      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-      <Home />
+      <AnimatePresence mode="wait">
+        {showSplash ? (
+          <SplashScreen key="splash" onFinish={handleSplashFinish} />
+        ) : (
+          <motion.div
+            key="home"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Home />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

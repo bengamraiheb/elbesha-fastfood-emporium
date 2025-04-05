@@ -1,43 +1,96 @@
 
 import React, { useEffect, useState } from 'react';
 import Logo from './Logo';
+import { motion } from 'framer-motion';
 
-const SplashScreen: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
-  const [fadeOut, setFadeOut] = useState(false);
+interface SplashScreenProps {
+  onFinish: () => void;
+}
+
+const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
-    // Show splash for 2 seconds, then start fade out
-    const timer = setTimeout(() => {
-      setFadeOut(true);
-    }, 2000);
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        const newProgress = prev + 5;
+        return newProgress >= 100 ? 100 : newProgress;
+      });
+    }, 100);
 
-    // After fade out animation completes, call onFinish
-    const finishTimer = setTimeout(() => {
-      onFinish();
-    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
 
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(finishTimer);
-    };
-  }, [onFinish]);
+  useEffect(() => {
+    if (loadingProgress === 100) {
+      const timeout = setTimeout(() => {
+        onFinish();
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [loadingProgress, onFinish]);
 
   return (
-    <div 
-      className={`fixed inset-0 flex flex-col items-center justify-center bg-white z-50 transition-opacity duration-500 ${
-        fadeOut ? 'opacity-0' : 'opacity-100'
-      }`}
+    <motion.div 
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-brand-dark to-black"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="text-center">
-        <div className="mb-4 animate-bounce">
-          <Logo size="large" />
-        </div>
-        <p className="text-gray-600 mt-4">Delicious. Fast. Fresh.</p>
-        <div className="mt-8 flex justify-center">
-          <div className="w-12 h-1 bg-primary rounded-full animate-pulse"></div>
-        </div>
-      </div>
-    </div>
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ 
+          delay: 0.2,
+          type: "spring",
+          stiffness: 260,
+          damping: 20
+        }}
+        className="text-center"
+      >
+        <Logo size="large" />
+        
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: loadingProgress / 100 }}
+          transition={{ ease: "easeInOut" }}
+          className="w-64 h-1 my-6 rounded-full bg-gradient-to-r from-brand-orange to-brand-red"
+        />
+        
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-4 text-gray-200 italic"
+        >
+          Delicious food, just a click away...
+        </motion.p>
+        
+        <motion.div 
+          className="flex space-x-1 mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: loadingProgress > 50 ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              className="w-3 h-3 rounded-full bg-brand-orange"
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
